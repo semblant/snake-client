@@ -12,19 +12,6 @@ const connect = function() {
   conn.on('connect', () => {
     console.log("Successfully connected to game server!");
     conn.write('Name: FLY');
-
-
-    // TEMPORARY CODE
-    //setInterval(() => {
-    //  conn.write('Move: up'); // moves the snake up 1
-    //}, 50)
-    //conn.write('Move: up'); // moves the snake up 1
-    //conn.write('Move: down'); // moves the snake right 1
-    //conn.write('Move.down'); // moves the snake down 1
-    //conn.write('Move: left'); // moves the snake left 1
-
-
-
   });
 
   conn.on('data', (data) => {
@@ -33,6 +20,5 @@ const connect = function() {
 
   return conn;
 };
-
 
 module.exports = { connect };
