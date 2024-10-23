@@ -19,16 +19,18 @@ const handleUserInput = (key) => {
   if (key === '\u0003') { // utf8 encoding for 'ctrl + c' to exit the program
     process.stdout.write("Bye!\n"); // write a message in the console upon exit
     process.exit();
-  } else if (key === 'w') { // handle movement up
+  } switch (key) {
+  case 'w':
     connection.write('Move: up');
-  } else if (key === 'a') { // handle movement left
+    break;
+  case 'a':
     connection.write('Move: left');
-  } else if (key === 's') { // handle movement down
+    break;
+  case 's':
     connection.write('Move: down');
-  } else if (key === 'd') { // handle movement right
+    break;
+  case 'd':
     connection.write('Move: right');
-  } else {
-    console.log('Please enter WASD or CTRL + C to exit.')
   }
 };
 
