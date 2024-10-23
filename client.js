@@ -10,7 +10,8 @@ const connect = function() {
   conn.setEncoding("utf-8");
 
   conn.on('connect', () => {
-    console.log("Connected to the server!");
+    console.log("Successfully connected to game server!");
+    conn.write('Name: FLY');
   });
 
   conn.on('data', (data) => {
@@ -21,4 +22,4 @@ const connect = function() {
 };
 
 
-module.exports = connect;
+module.exports = { connect }
