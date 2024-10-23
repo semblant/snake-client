@@ -16,10 +16,14 @@ const setupInput = (conn) => {
 };
 
 const handleUserInput = (key) => {
-  if (key === '\u0003') { // utf8 encoding for 'ctrl + c' to exit the program
+  switch (key) {
+
+  // Exit case
+  case '\u0003':
     process.stdout.write("Bye!\n"); // write a message in the console upon exit
     process.exit();
-  } switch (key) {
+    break;
+  // Movement cases
   case 'w':
     connection.write('Move: up');
     break;
@@ -31,6 +35,17 @@ const handleUserInput = (key) => {
     break;
   case 'd':
     connection.write('Move: right');
+    break;
+
+  // Message cases
+  case 'y':
+    connection.write('Say: red pixel YUM');
+    break;
+  case 'i':
+    connection.write('Say: im a slithery snek');
+    break;
+  case 'b':
+    connection.write('Say: Bye everyone :)');
   }
 };
 
