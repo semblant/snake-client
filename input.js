@@ -4,12 +4,17 @@ const { MOVE_UP_KEY,
   MOVE_DOWN_KEY,
   MOVE_RIGHT_KEY,
   MESSAGES,
-} = require('./constants')
+} = require('./constants');
 
 // Stores the active TCP connection object
 let connection;
 
-// setup interface to handle user input from stdin
+/**
+ * Function setupInput() handles the interface to handle user input from stdin.
+ *
+ * @param {Object} conn - The connection object used for communicating with the server.
+ * @returns {Object} stdin - The stdin object to allow for further manipulation.
+ */
 const setupInput = (conn) => {
   connection = conn;
 
@@ -24,39 +29,50 @@ const setupInput = (conn) => {
   return stdin; // return the stdin object so we can use it elsewhere
 };
 
+
+/**
+ * Function movementDirection() handles movement direction based on user key input.
+ *
+ * @param {string} key - The key representing the direction of movement.
+ */
 const movementDirection = (key) => {
   switch (key) {
-    // Movement cases
-    case MOVE_UP_KEY:
-      connection.write('Move: up');
-      break;
-    case MOVE_LEFT_KEY:
-      connection.write('Move: left');
-      break;
-    case MOVE_DOWN_KEY:
-      connection.write('Move: down');
-      break;
-    case MOVE_RIGHT_KEY:
-      connection.write('Move: right');
-      break;
+  // Movement cases
+  case MOVE_UP_KEY:
+    connection.write('Move: up');
+    break;
+  case MOVE_LEFT_KEY:
+    connection.write('Move: left');
+    break;
+  case MOVE_DOWN_KEY:
+    connection.write('Move: down');
+    break;
+  case MOVE_RIGHT_KEY:
+    connection.write('Move: right');
+    break;
   }
 };
 
+/**
+ *  Function messageInput() handles canned chat messages based on user key input.
+ *
+ * @param {string} key - The key representing the desired chat message
+ */
 const messageInput = key => {
-  switch(key) {
-    // Chat message cases
-    case MESSAGES['g']:
-      connection.write(MESSAGES['g']);
-      break;
-    case MESSAGES['y']:
-      connection.write(MESSAGES['y']);
-      break;
-    case MESSAGES['i']:
-      connection.write(MESSAGES['i']);
-      break;
-    case MESSAGES['b']:
-      connection.write(MESSAGES['b']);
-      break;
+  switch (key) {
+  // Chat message cases
+  case MESSAGES['g']:
+    connection.write(MESSAGES['g']);
+    break;
+  case MESSAGES['y']:
+    connection.write(MESSAGES['y']);
+    break;
+  case MESSAGES['i']:
+    connection.write(MESSAGES['i']);
+    break;
+  case MESSAGES['b']:
+    connection.write(MESSAGES['b']);
+    break;
   }
 };
 
@@ -70,6 +86,14 @@ const opposites = {
   'd': 'a',
 };
 
+/**
+ * Function handleUserInput() handles the user input for movement, messages and exit commands.
+ *
+ * Handles movement input and sets an interval for the movement by passing the input to movementDirection().
+ * Handles message input by passing the input to messageInput()
+ *
+ * @param {string} key - The key pressed by the user.
+ */
 const handleUserInput = (key) => {
   // Exit case
   if (key ===  '\u0003') {
@@ -78,6 +102,7 @@ const handleUserInput = (key) => {
 
     // Movement cases
   } else if ([MOVE_UP_KEY, MOVE_LEFT_KEY, MOVE_DOWN_KEY, MOVE_RIGHT_KEY].includes(key)) {
+
     // Case: direction is up 'w' and user presses down 'd', direction continues up
     if (direction !== opposites[key]) {
       direction = key; // store current direction
@@ -86,11 +111,13 @@ const handleUserInput = (key) => {
       if (moveInterval) {
         clearInterval(moveInterval);
       }
+
       // Set new interval with new movement key
       moveInterval = setInterval(() => {
-      movementDirection(key);
-    }, 100);
+        movementDirection(key);
+      }, 100);
     }
+
     // Message cases
   } else if (MESSAGES[key]) {
     messageInput(MESSAGES[key]);

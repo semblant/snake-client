@@ -1,8 +1,18 @@
-const { IP, PORT } = require('./constants');
-const { clients } = require('./constants');
+const { IP, PORT, MESSAGES } = require('./constants');
 
+/**
+ * Function connect() establishes a TCP connection with the game server
+ *
+ *
+ * Events handled:
+ * - 'connect': Logs a success message and prompts the user for input.
+ * - 'data': Logs incoming data from the server and checks for idle messages.
+ * - 'error': Handles any connection errors and exits the process.
+ *
+ *
+ * @returns {Object} conn - The connection object used for communication with the server.
+ */
 
-// establishes connection with the game server
 const connect = function() {
   const net = require('net');
   const conn = net.createConnection({
@@ -10,14 +20,22 @@ const connect = function() {
     port: PORT,
   });
 
-  // interpret incoming data as text
+  // Interpret incoming data as utf8
   conn.setEncoding("utf-8");
 
-  conn.on('connect', (connection) => {
+  // Display connection messages
+  conn.on('connect', () => {
     console.log("Successfully connected to game server!\n");
-    conn.write('Name: FLY'); // could turn this into constant variable - ask user to define name when connected to server?
+    console.log(`You can send messages by inputing the following keys:
+      g - '${MESSAGES['g'].slice(5)}'
+      y - '${MESSAGES['y'].slice(5)}'
+      i - '${MESSAGES['i'].slice(5)}'
+      b - '${MESSAGES['b'].slice(5)}'\n`);
+
+    conn.write('Name: SNK');
   });
 
+  // Log incoming data from the server
   conn.on('data', (data) => {
     console.log(data);
     if (data === 'you ded cuz you idled\n') {
@@ -25,9 +43,10 @@ const connect = function() {
     }
   });
 
+  // Leave server on error
   conn.on('error', () => {
-    process.exit()
-  })
+    process.exit();
+  });
 
   return conn;
 };
