@@ -8,8 +8,8 @@ Before you can run this client, you will need to be running the server side whic
 
 ## Final Product
 
-![The Game of Snake](/snake-client/images/snakeGame.png)
-![Server Messages](/snake-client/images/serverMessages.png)
+![The Game of Snake](/images/snakeGame.png)
+![Server Messages](/images/serverMessages.png)
 
 
 ## Getting Started
