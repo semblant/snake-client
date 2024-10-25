@@ -26,7 +26,7 @@ const connect = function() {
   // Display connection messages
   conn.on('connect', () => {
     console.log("Successfully connected to game server!\n");
-    console.log(`You can send messages by inputing the following keys:
+    console.log(`You can send messages! Input any of the following keys:
       g - '${MESSAGES['g'].slice(5)}'
       y - '${MESSAGES['y'].slice(5)}'
       i - '${MESSAGES['i'].slice(5)}'
